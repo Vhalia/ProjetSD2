@@ -24,7 +24,7 @@ public class Graph {
 		cca3Country = new HashMap<String, Country>();
 	}
 
-	protected void addSummit(Country c) {
+	protected void addNode(Country c) {
 		if(c == null) throw new IllegalArgumentException("Error: country can't be null");
 		outgoingRoads.put(c, new HashSet<String>());
 		cca3Country.put(c.getCca3(), c);

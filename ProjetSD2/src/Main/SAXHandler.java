@@ -5,7 +5,8 @@ import org.xml.sax.helpers.DefaultHandler;
 
 public class SAXHandler extends DefaultHandler {
 	
-	private Country currentCountry; //the country SAX is actually reading
+	private Country currentCountry = null;	//the country SAX is actually reading
+	boolean insideBorder = false;	//verify if inside border tag
 	
 	Graph graph = new Graph();
 	
@@ -14,33 +15,31 @@ public class SAXHandler extends DefaultHandler {
 	}
 
 	@Override
-	public void startDocument() throws SAXException {
-		// TODO Auto-generated method stub
-		super.startDocument();
-	}
-
-	@Override
-	public void endDocument() throws SAXException {
-		// TODO Auto-generated method stub
-		super.endDocument();
-	}
-
-	@Override
 	public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
-		// TODO Auto-generated method stub
-		super.startElement(uri, localName, qName, attributes);
+		if(qName.equalsIgnoreCase("country")) {
+			Country country = new Country(attributes.getValue("cca3"), attributes.getValue("name"), Integer.parseInt(attributes.getValue("population")));
+			currentCountry = country;
+			graph.addNode(currentCountry);
+		} else if(qName.equalsIgnoreCase("border")) {
+			insideBorder = true;
+		}
 	}
 
 	@Override
 	public void endElement(String uri, String localName, String qName) throws SAXException {
-		// TODO Auto-generated method stub
-		super.endElement(uri, localName, qName);
+		if(qName.equalsIgnoreCase("country")) {
+			currentCountry = null;
+		} else if(qName.equalsIgnoreCase("border")) {
+			insideBorder = false;
+		}
 	}
 
 	@Override
 	public void characters(char[] ch, int start, int length) throws SAXException {
-		// TODO Auto-generated method stub
-		super.characters(ch, start, length);
+		if(insideBorder) {
+			String cca3 = new String(ch, start, length);
+			graph.addArch(currentCountry, cca3);
+		}
 	}
 
 }
