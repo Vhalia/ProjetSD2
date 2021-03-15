@@ -23,5 +23,10 @@ public class Country {
 	public int getPopulation() {
 		return population;
 	}
+
+	@Override
+	public String toString() {
+		return "Country [cca3=" + cca3 + ", name=" + name + "]";
+	}
 	
 }

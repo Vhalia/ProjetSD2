@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!ELEMENT countries (country+)>
+<!ELEMENT country (border*)>
+<!ATTLIST country
+    capital CDATA #IMPLIED
+    cca3 CDATA #REQUIRED

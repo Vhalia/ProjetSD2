@@ -1,18 +1,11 @@
 package Main;
 
-import java.io.File;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 public class Graph {
 
@@ -44,10 +37,52 @@ public class Graph {
 		return outgoingRoads.get(c1).contains(c2.getCca3());
 	}
 	
-	public void calculerItineraireMinimisantNombreDeFrontieres(String cca3, String otherCca3, String file) {
-		//todo
+	//Breadth-first search
+	public void calculerItineraireMinimisantNombreDeFrontieres(String startCca3, String destinationCca3, String file) {
+		
+		Deque<Country> fifo = new LinkedList<Country>();	//Used for breadth-first search
+		Deque<Country> itinerary = new LinkedList<Country>(); //Final itinerary countries
+		Map<Country, Country> originCountry = new HashMap<Country, Country>();
+		Set<Country> alreadyMet = new HashSet<Country>();
+		Country start = cca3Country.get(startCca3);
+		Country destination = cca3Country.get(destinationCca3);
+		boolean destinationFound = false;
+		
+		alreadyMet.add(start);
+		
+		Set<String> outgoingArches = this.outgoingArches(start);
+		Country nextCountry = start;
+		
+		while(!destinationFound) {
+			for (String cca3 : outgoingArches) {
+				Country countryTemp = cca3Country.get(cca3);
+				if(!alreadyMet.contains(countryTemp)){
+					fifo.add(countryTemp);
+					originCountry.put(countryTemp, nextCountry);
+					alreadyMet.add(countryTemp);
+				}
+				if(countryTemp.equals(destination))
+					destinationFound = true;
+			}
+			nextCountry = fifo.poll();
+			outgoingArches = this.outgoingArches(nextCountry);			
+		}
+		
+		
+		Country previousCountry = destination;
+		itinerary.add(destination);
+		while(!previousCountry.equals(start)) {
+			Country previousCountryTemp = originCountry.get(previousCountry);
+			itinerary.addFirst(previousCountryTemp);
+			previousCountry = previousCountryTemp;
+		}
+				
+		XmlBuilder.build(itinerary, file);
+		
+		
 	}
 	
+	//Dijkstra
 	public void calculerItineraireMinimisantPopulationTotale(String cca3, String otherCca3, String file) {
 		//todo
 	}	
