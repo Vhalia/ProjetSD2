@@ -1,1 +1,18 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?><itineraire arrivee="India" depart="Belgium" nbPays="9" sommePopulation="1780281909"><pays cca3="BEL" nom="Belgium" population="11175653"/><pays cca3="DEU" nom="Germany" population="80523700"/><pays cca3="POL" nom="Poland" population="38533299"/><pays cca3="RUS" nom="Russia" population="143500000"/><pays cca3="GEO" nom="Georgia" population="4942157"/><pays cca3="ARM" nom="Armenia" population="3024100"/><pays cca3="IRN" nom="Iran" population="77068000"/><pays cca3="PAK" nom="Pakistan" population="184845000"/><pays cca3="IND" nom="India" population="1236670000"/></itineraire>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<itineraire arrivee="India" depart="Belgium" nbPays="14"
+	sommePopulation="1686913442">
+	<pays cca3="BEL" nom="Belgium" population="11175653" />
+	<pays cca3="FRA" nom="France" population="65806000" />
+	<pays cca3="CHE" nom="Switzerland" population="8085300" />
+	<pays cca3="AUT" nom="Austria" population="8501502" />
+	<pays cca3="SVN" nom="Slovenia" population="2061405" />
+	<pays cca3="HRV" nom="Croatia" population="4290612" />
+	<pays cca3="MNE" nom="Montenegro" population="620029" />
+	<pays cca3="ALB" nom="Albania" population="2821977" />
+	<pays cca3="MKD" nom="Macedonia" population="2058539" />
+	<pays cca3="BGR" nom="Bulgaria" population="7282041" />
+	<pays cca3="TUR" nom="Turkey" population="75627384" />
+	<pays cca3="IRN" nom="Iran" population="77068000" />
+	<pays cca3="PAK" nom="Pakistan" population="184845000" />
+	<pays cca3="IND" nom="India" population="1236670000" />
+</itineraire>

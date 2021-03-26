@@ -128,7 +128,7 @@ public class Graph {
 			
 			//Selecting next country to use as nextCountry
 			String cca3Temp = findMinPopulation(temporaryLabel);
-			definitiveLabel.put(cca3Temp, temporaryLabel.get(cca3Temp));		
+			definitiveLabel.put(cca3Temp, temporaryLabel.get(cca3Temp));	
 			temporaryLabel.put(cca3Temp, null);			
 			nextCountry = cca3Country.get(cca3Temp);
 		}
@@ -141,8 +141,6 @@ public class Graph {
 			itinerary.addFirst(previousCountryTemp);
 			previousCountry = previousCountryTemp;
 		}
-		
-		System.out.println(definitiveLabel.get(destination.getCca3()));
 		
 		XmlBuilder.build(itinerary, file);		
 		
@@ -157,9 +155,11 @@ public class Graph {
 			if (map.get(cca3) == null) continue;
 			long population = map.get(cca3);
 			
-			if(population < smallestPopulation)
+			if(population < smallestPopulation) {
 				smallestPopulation = population;
 				minPopulationCca3 = cca3;
+			}
+				
 		}
 		
 		return minPopulationCca3;
