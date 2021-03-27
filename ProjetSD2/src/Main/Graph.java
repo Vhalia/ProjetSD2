@@ -6,6 +6,8 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 public class Graph {
 
@@ -95,6 +97,7 @@ public class Graph {
 		Map<String, Long> definitiveLabel = new HashMap<String, Long>();
 		Map<Country, Country> originCountry = new HashMap<Country, Country>();
 		Deque<Country> itinerary = new LinkedList<Country>();	//Final itinerary countries
+		SortedMap<Long, String> sortedTemporaryLabel = new TreeMap<Long, String>();
 
 		Country start = cca3Country.get(startCca3);
 		Country destination = cca3Country.get(destinationCca3);
@@ -105,13 +108,11 @@ public class Graph {
 		}
 		
 		Country nextCountry = start;
-		temporaryLabel.put(startCca3, null);
 		definitiveLabel.put(startCca3, (long) start.getPopulation());
 		
 		
 		while (!definitiveLabel.containsKey(destination.getCca3())) {
 			
-			if(nextCountry == null) throw new UnreachableException("Le pays d'arrivée n'est pas accessible");
 			String nextCountryCca3 = nextCountry.getCca3();
 			long nextCountryPop = definitiveLabel.get(nextCountryCca3);	//Population met to reach nextCountry
 			
@@ -121,15 +122,20 @@ public class Graph {
 					if(!originCountry.containsKey(cca3Country.get(cca3)) ||
 							temporaryLabel.get(cca3) > (nextCountryPop + cca3Country.get(cca3).getPopulation())) {
 						originCountry.put(cca3Country.get(cca3), nextCountry);
-						temporaryLabel.put(cca3, nextCountryPop + cca3Country.get(cca3).getPopulation());
+						Long sommePop = nextCountryPop + cca3Country.get(cca3).getPopulation();
+						sortedTemporaryLabel.put(sommePop, cca3);
+						temporaryLabel.put(cca3, sommePop);
 					}
 				}
 			}
 			
 			//Selecting next country to use as nextCountry
-			String cca3Temp = findMinPopulation(temporaryLabel);
-			definitiveLabel.put(cca3Temp, temporaryLabel.get(cca3Temp));	
-			temporaryLabel.put(cca3Temp, null);			
+			if(sortedTemporaryLabel.isEmpty()) throw new UnreachableException("Le pays d'arrivée n'est pas accessible");
+			Long popTemp = sortedTemporaryLabel.firstKey();
+			String cca3Temp = sortedTemporaryLabel.get(popTemp);
+			definitiveLabel.put(cca3Temp, popTemp);	
+			sortedTemporaryLabel.remove(popTemp);		
+			temporaryLabel.remove(cca3Temp);
 			nextCountry = cca3Country.get(cca3Temp);
 		}
 		
